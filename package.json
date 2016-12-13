@@ -1,0 +1,26 @@
+{
+  "name": "star-api",
+  "version": "1.0.0",
+  "description": "api with nodejs, mongodb, passportjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluewaitor/star-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bluewaitor/star-api/issues"
+  },
+  "homepage": "https://github.com/bluewaitor/star-api#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.2",
+    "morgan": "^1.7.0"
+  }
+}
