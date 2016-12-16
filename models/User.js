@@ -6,9 +6,10 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
-    password: {
+    password: String,
+    date: {
         type: String,
-        required: true
+        default: Date.now
     }
 }, {timestamps: true});
 
