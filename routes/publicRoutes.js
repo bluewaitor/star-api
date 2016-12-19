@@ -24,11 +24,62 @@ route.post('/signup', function(req, res) {
                 }else{
                     throw error;
                 }
-            })
-         }
-        
+            });
+        }
     });
 });
 
+
+route.post('/login', function (req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    if(!username) {
+        return res.json({
+            success: false,
+            message: "用户名不能为空"
+        });
+    }
+    if(!password) {
+        return res.json({
+            success: false,
+            message: "密码不能为空"
+        });
+    }
+
+    User.findOne({username: username}, function (err, user) {
+        console.log(user);
+        if(!err) {
+            user.comparePassword(password, function (err, isMatch) {
+                if(!isMatch) {
+                    return res.json({
+                        success: false,
+                        message: "密码错误"
+                    })
+                } else{
+                    jwt.sign({id: user.id}, config.secret, {expiresIn: 60}, function(error, token) {
+                        if(!error) { 
+                            return res.json({
+                                success: true,
+                                message: "给你token",
+                                token: token
+                            });
+                        }else{
+                            throw error;
+                        }
+                    });
+                    
+                }
+            })
+        }else{
+            return res.json({
+                success: false,
+                message: "用户名不存在"
+            });
+        }
+
+    })
+
+});
 
 module.exports = route;
