@@ -1,3 +1,4 @@
 module.exports = {
-    secret: "StarApiIsSoAwesome"
+    secret: "StarApiIsSoAwesome",
+    expireTime: 600 //暂时用10分钟
 }

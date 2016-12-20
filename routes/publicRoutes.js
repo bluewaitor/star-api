@@ -5,7 +5,6 @@ var jwt = require('jsonwebtoken');
 var appConfig = require('../config/appConfig');
 var User = require('../models/User');
 
-
 route.post('/signup', function(req, res) {
     var user = new User();
     user.username = req.body.username;
@@ -18,7 +17,7 @@ route.post('/signup', function(req, res) {
                 throw err;
             }
         }else{
-            jwt.sign({id: insertedUser.id}, appConfig.secret, {expiresIn: 60}, function(error, token) {
+            jwt.sign({id: insertedUser.id}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
                 if(!error) { 
                     res.json({success: true, message: "注册成功", token: token});
                 }else{
@@ -48,7 +47,6 @@ route.post('/login', function (req, res) {
     }
 
     User.findOne({username: username}, function (err, user) {
-        console.log(user);
         if(!err) {
             user.comparePassword(password, function (err, isMatch) {
                 if(!isMatch) {
@@ -57,7 +55,7 @@ route.post('/login', function (req, res) {
                         message: "密码错误"
                     })
                 } else{
-                    jwt.sign({id: user.id}, appConfig.secret, {expiresIn: 60}, function(error, token) {
+                    jwt.sign({id: user.id}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
                         if(!error) { 
                             return res.json({
                                 success: true,

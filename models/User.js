@@ -7,6 +7,10 @@ var userSchema = mongoose.Schema({
         unique: true
     },
     password: String,
+    admin: {
+        type: Boolean,
+        default: false
+    },
     date: {
         type: String,
         default: Date.now
