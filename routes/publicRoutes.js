@@ -2,7 +2,7 @@ var express = require('express');
 
 var route = express.Router();
 var jwt = require('jsonwebtoken');
-var config = require('../config/config');
+var appConfig = require('../config/appConfig');
 var User = require('../models/User');
 
 
@@ -18,7 +18,7 @@ route.post('/signup', function(req, res) {
                 throw err;
             }
         }else{
-            jwt.sign({id: insertedUser.id}, config.secret, {expiresIn: 60}, function(error, token) {
+            jwt.sign({id: insertedUser.id}, appConfig.secret, {expiresIn: 60}, function(error, token) {
                 if(!error) { 
                     res.json({success: true, message: "注册成功", token: token});
                 }else{
@@ -57,7 +57,7 @@ route.post('/login', function (req, res) {
                         message: "密码错误"
                     })
                 } else{
-                    jwt.sign({id: user.id}, config.secret, {expiresIn: 60}, function(error, token) {
+                    jwt.sign({id: user.id}, appConfig.secret, {expiresIn: 60}, function(error, token) {
                         if(!error) { 
                             return res.json({
                                 success: true,
