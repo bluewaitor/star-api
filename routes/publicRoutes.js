@@ -28,6 +28,16 @@ route.post('/signup', function(req, res) {
     });
 });
 
+route.get('/all', function(req, res) {
+    User.find({}, function(err, users){
+        if(err) throw err;
+        console.log(users);
+        return res.json({
+            success: true,
+            users: users
+        })
+    })
+})
 
 route.post('/login', function (req, res) {
     var username = req.body.username;

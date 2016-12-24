@@ -4,12 +4,14 @@ var app = express();
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var cors = require('cors');
 
 var publicRoutes = require('./routes/publicRoutes');
 var privateRoutes = require('./routes/privateRoutes');
 
 mongoose.connect('mongodb://localhost:27017/star');
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(morgan('dev'));
