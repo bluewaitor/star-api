@@ -26,7 +26,7 @@ route.get('/user/:id', requireAuth, function(req, res) {
  * 获取所有用户
  */
 route.get("/users", requireAuth, requireAdmin, function(req, res) {
-    User.find({}, 'username createdAt', function(err, users) {
+    User.find({}, 'username createdAt date type', function(err, users) {
         if(err) throw err;
         res.json({
             success: true,

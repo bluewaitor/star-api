@@ -8,6 +8,10 @@ var starSchema = mongoose.Schema({
     },
     url: {
         type: String,
+    },
+    private: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true});
 

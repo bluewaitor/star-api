@@ -11,6 +11,14 @@ var userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    type: {
+        type: String,
+        default: "User"
+    },
+    email: {
+        type: String,
+        unique: true
+    },
     date: {
         type: String,
         default: Date.now
