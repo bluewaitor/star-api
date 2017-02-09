@@ -4,6 +4,7 @@ var route = express.Router();
 var jwt = require('jsonwebtoken');
 var appConfig = require('../config/appConfig');
 var User = require('../models/User');
+var Article = require("../models/Article");
 
 route.post('/signup', function(req, res) {
     var user = new User();
@@ -89,5 +90,15 @@ route.post('/login', function (req, res) {
     })
 
 });
+
+route.get("/articles", function(req, res) {
+    Article.find({}).populate('user').exec(function(err, articles) {
+        return res.json({
+            success: true,
+            message: "获取文章成功",
+            article: articles
+        })
+    })
+})
 
 module.exports = route;
