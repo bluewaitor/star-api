@@ -73,4 +73,21 @@ route.post("/articles", requireAuth, function(req, res) {
     });
 });
 
+
+route.get('/articles', function(req, res) {
+    Article.find({}, function(err, articles) {
+        if(!err) {
+            return res.json({
+                success: true,
+                articles: articles
+            })
+        }else{
+            return res.json({
+                success: false,
+                message: "获取文章失败"
+            })
+        }
+    });
+})
+
 module.exports = route;
