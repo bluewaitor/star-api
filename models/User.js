@@ -16,8 +16,7 @@ var userSchema = mongoose.Schema({
         default: "User"
     },
     email: {
-        type: String,
-        unique: true
+        type: String
     },
     date: {
         type: String,

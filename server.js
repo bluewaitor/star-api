@@ -16,8 +16,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(morgan('dev'));
 
-app.use("/api", publicRoutes);
-app.use("/api", privateRoutes);
+publicRoutes(app);
+app.use("/", privateRoutes);
 
 
 app.listen(PORT, function() {
