@@ -75,7 +75,7 @@ route.post("/articles", requireAuth, function(req, res) {
 
 
 route.get('/articles', function(req, res) {
-    Article.find({}, function(err, articles) {
+    Article.find({}).populate('user', 'username date').exec( function(err, articles) {
         if(!err) {
             return res.json({
                 success: true,

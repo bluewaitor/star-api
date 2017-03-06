@@ -53,7 +53,7 @@ module.exports = {
                             message: "密码错误"
                         })
                     } else{
-                        jwt.sign({id: user.id}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
+                        jwt.sign({id: user.id, user: {username: user.username, date: user.date}}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
                             if(!error) { 
                                 return res.json({
                                     success: true,
