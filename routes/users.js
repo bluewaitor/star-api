@@ -16,7 +16,7 @@ module.exports = {
                     throw err;
                 }
             }else{
-                jwt.sign({id: insertedUser.id}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
+                jwt.sign({id: insertedUser.id, user: {username: insertedUser.username, date: insertedUser.date}}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
                     if(!error) { 
                         res.json({success: true, message: "注册成功", token: token});
                     }else{
