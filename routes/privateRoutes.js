@@ -73,7 +73,9 @@ route.post("/articles", requireAuth, function(req, res) {
     });
 });
 
-
+/**
+ * 获取所有的文章, 不需要登录
+ */
 route.get('/articles', function(req, res) {
     Article.find({}).populate('user', 'username date').exec( function(err, articles) {
         if(!err) {
@@ -88,6 +90,28 @@ route.get('/articles', function(req, res) {
             })
         }
     });
-})
+});
+
+/**
+ * 根据id获取文章, 不需要登录
+ */
+route.get('/articles/:id', function(req, res) {
+    console.log(req.params.id);
+    var id = req.params.id;
+    Article.findById(id).populate('user', 'username').exec(function(err, article) {
+        if(!err) {
+            return res.json({
+                message: "获取文章详情成功",
+                success: true,
+                article: article
+            })
+        }else{
+            return res.json({
+                success: false,
+                message: "获取文章详情失败"
+            })
+        }
+    })
+});
 
 module.exports = route;
