@@ -23,6 +23,25 @@ route.get('/users/:id', requireAuth, function(req, res) {
 });
 
 /**
+ * 
+ */
+route.get('/me', requireAuth, function(req, res) {
+    var id = req.decoded.id;
+    User.findById(id, 'username createdAt type',function(err, user) {
+        if(err) return res.status(403).json({
+            success: false,
+            message: "查无此人"
+        });
+
+        res.json({
+            success: true,
+            user: user
+        })
+    })
+});
+
+
+/**
  * 获取所有用户
  */
 route.get("/users", requireAuth, requireAdmin, function(req, res) {
