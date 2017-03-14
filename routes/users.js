@@ -16,7 +16,7 @@ module.exports = {
                     throw err;
                 }
             }else{
-                jwt.sign({id: insertedUser.id, user: {username: insertedUser.username, date: insertedUser.date}}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
+                jwt.sign({id: insertedUser.id, user: {username: insertedUser.username, date: insertedUser.date, admin: insertedUser.admin}}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
                     if(!error) { 
                         res.json({success: true, message: "注册成功", token: token});
                     }else{
@@ -53,7 +53,7 @@ module.exports = {
                             message: "密码错误"
                         })
                     } else{
-                        jwt.sign({id: user.id, user: {username: user.username, date: user.date}}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
+                        jwt.sign({id: user.id, user: {username: user.username, date: user.date, admin: user.admin}}, appConfig.secret, {expiresIn: appConfig.expireTime}, function(error, token) {
                             if(!error) { 
                                 return res.json({
                                     success: true,
