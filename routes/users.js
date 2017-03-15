@@ -66,7 +66,9 @@ module.exports = {
         }
 
         User.findOne({username: username}, function (err, user) {
-            if(!err) {
+
+            if(!err && user) {
+        
                 user.comparePassword(password, function (err, isMatch) {
                     if(!isMatch) {
                         return res.json({
