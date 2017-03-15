@@ -96,7 +96,7 @@ route.post("/articles", requireAuth, function(req, res) {
  * 获取所有的文章, 不需要登录
  */
 route.get('/articles', function(req, res) {
-    Article.find({}).populate('user', 'username date').exec( function(err, articles) {
+    Article.find({}).sort('-createdAt').populate('user', 'username date').exec( function(err, articles) {
         if(!err) {
             return res.json({
                 success: true,
