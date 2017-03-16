@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/bluewaitor/star-api#readme",
   "dependencies": {
+    "@bluewaitor/mongoose-plugin-timestamp": "^1.0.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",

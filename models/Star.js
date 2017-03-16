@@ -8,12 +8,17 @@ var starSchema = mongoose.Schema({
     },
     url: {
         type: String,
+        index: true
     },
-    private: {
+    public: {
         type: Boolean,
-        default: false
+        default: true
+    },
+    like: {
+        type: Number,
+        default: 0
     }
-}, {timestamps: true});
+});
 
 
 module.exports = mongoose.model("Star", starSchema);

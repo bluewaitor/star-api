@@ -6,21 +6,23 @@ var ArticleSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    private: {
+    public: {
         type: Boolean,
-        default: false
+        default: true
     },
     title: {
-        type: String
+        type: String,
+        index: true
     },
     content: {
-        type: String
+        type: String,
+        index: true
     },
     publish: {
         type: Boolean,
         default: false
     }
-}, {timestamps: true});
+});
 
 
 module.exports = mongoose.model("Article", ArticleSchema);

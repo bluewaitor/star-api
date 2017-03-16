@@ -4,7 +4,8 @@ var bcrypt = require('bcrypt-nodejs');
 var userSchema = mongoose.Schema({
     username: {
         type: String,
-        unique: true
+        unique: true,
+        index: true
     },
     password: String,
     admin: {
@@ -18,11 +19,15 @@ var userSchema = mongoose.Schema({
     email: {
         type: String
     },
-    date: {
+    gender: {
+        type: Number,
+        default: 0
+    },
+    phone: {
         type: String,
-        default: Date.now
-    }
-}, {timestamps: true});
+        index: true
+    },
+});
 
 userSchema.pre('save', function(next) {
     const user = this;

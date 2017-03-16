@@ -27,7 +27,7 @@ route.get('/users/:id', requireAuth, function(req, res) {
  */
 route.get('/me', requireAuth, function(req, res) {
     var id = req.decoded.id;
-    User.findById(id, 'username createdAt type',function(err, user) {
+    User.findById(id, 'username created type',function(err, user) {
         if(err) return res.status(403).json({
             success: false,
             message: "查无此人"
@@ -45,7 +45,8 @@ route.get('/me', requireAuth, function(req, res) {
  * 获取所有用户
  */
 route.get("/users", requireAuth, requireAdmin, function(req, res) {
-    User.find({}, 'username createdAt date type', function(err, users) {
+    User.find({}, 'username created updated type', function(err, users) {
+        console.log(users);
         if(err) throw err;
         res.json({
             success: true,
@@ -96,7 +97,7 @@ route.post("/articles", requireAuth, function(req, res) {
  * 获取所有的文章, 不需要登录
  */
 route.get('/articles', function(req, res) {
-    Article.find({}).sort('-createdAt').populate('user', 'username date').exec( function(err, articles) {
+    Article.find({}).sort('-created').populate('user', 'username date').exec( function(err, articles) {
         if(!err) {
             return res.json({
                 success: true,

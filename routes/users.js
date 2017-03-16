@@ -31,6 +31,7 @@ module.exports = {
         
         user.save(function(err, insertedUser) {
             if(err) {
+                console.log(err);
                 if(err.code == 11000 && err.name == "MongoError") {
                     res.status(400).send({success: false, message: "该用户已存在"});
                 } else{
