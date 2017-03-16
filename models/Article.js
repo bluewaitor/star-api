@@ -15,8 +15,7 @@ var ArticleSchema = mongoose.Schema({
         index: true
     },
     content: {
-        type: String,
-        index: true
+        type: String
     },
     publish: {
         type: Boolean,
