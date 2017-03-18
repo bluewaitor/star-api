@@ -23,6 +23,7 @@ function requireAuth(req, res, next){
                     message: err.message
                 })
             } else {
+                console.log(decoded);
                 req.decoded = decoded;
                 next();
             }

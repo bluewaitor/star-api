@@ -116,7 +116,6 @@ route.get('/articles', function(req, res) {
  * 根据id获取文章, 不需要登录
  */
 route.get('/articles/:id', function(req, res) {
-    console.log(req.params.id);
     var id = req.params.id;
     Article.findById(id).populate('user', 'username').exec(function(err, article) {
         if(!err) {
@@ -133,5 +132,50 @@ route.get('/articles/:id', function(req, res) {
         }
     })
 });
+
+/**
+ * 根据id修改文章, 需要登录, 并且文章是本人的
+ */
+route.put('/articles/:id', requireAuth, function(req, res) {
+    var id = req.params.id;
+    var title = req.body.title;
+    var content = req.body.content;
+    var userId = req.decoded.id;
+
+    if(!title) {
+        return res.json({
+            success: false,
+            message: "文章标题不能为空"
+        });
+    }
+
+    if(!content) {
+        return res.json({
+            success: false,
+            message: "文章内容不能为空"
+        });
+    }
+
+    var condition = {_id: id};
+    if(!req.decoded.user.admin) {
+        condition.user = userId
+    }
+    Article.findOneAndUpdate(condition, {title: title, content: content}, function(err, newArticle){
+        if(!err && newArticle) {
+            return res.json({
+                success: true,
+                message: "修改成功",
+                article: newArticle
+            })
+        }else{
+            return res.json({
+                success: false,
+                message: "你不是该文章的所有者",
+                err: err,
+                article: newArticle
+            })
+        }
+    });
+})
 
 module.exports = route;
