@@ -176,6 +176,51 @@ route.put('/articles/:id', requireAuth, function(req, res) {
             })
         }
     });
-})
+});
+
+route.put('/users/password', requireAuth, function(req, res) {
+    var oldPassword = req.body.oldPassword;
+    var newPassword = req.body.newPassword;
+    var repeatPassword = req.body.repeatPassword;
+    var id = req.decoded.id;
+    if(newPassword != repeatPassword) {
+        return res.json({
+            success: false,
+            message: "新密码和重复新密码不一致"
+        })
+    }
+    User.findById(id, function (err, user) {
+        if(!err && user) {
+            user.comparePassword(oldPassword, function (err, isMatch) {
+                if(!isMatch) {
+                    return res.json({
+                        success: false,
+                        message: "老密码错误"
+                    })
+                } else{
+                    user.password = newPassword;
+                    user.save(function(newErr, newUser) {
+                        if(!newErr && newUser) {
+                            res.json({
+                                success: true,
+                                message: "密码修改成功"
+                            })
+                        }else{
+                            res.json({
+                                success: false,
+                                message: "密码修改失败"
+                            })
+                        }
+                    })
+                }
+            })
+        }else{
+            return res.json({
+                success: false,
+                message: "用户不存在"
+            });
+        }
+    });
+});
 
 module.exports = route;
