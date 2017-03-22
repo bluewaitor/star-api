@@ -46,7 +46,6 @@ route.get('/me', requireAuth, function(req, res) {
  */
 route.get("/users", requireAuth, requireAdmin, function(req, res) {
     User.find({}, 'username created updated type', function(err, users) {
-        console.log(users);
         if(err) throw err;
         res.json({
             success: true,
@@ -82,7 +81,7 @@ route.post("/articles", requireAuth, function(req, res) {
     article.user = req.decoded.id;
     article.save(function(err, insertedArticle) {
         if(err) {
-
+            
         }else{
             return res.json({
                 success: true,

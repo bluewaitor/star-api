@@ -31,7 +31,6 @@ module.exports = {
         
         user.save(function(err, insertedUser) {
             if(err) {
-                console.log(err);
                 if(err.code == 11000 && err.name == "MongoError") {
                     res.status(400).send({success: false, message: "该用户已存在"});
                 } else{
@@ -103,8 +102,6 @@ module.exports = {
     user: function(req, res) {
         var username = req.body.username;
         User.findOne({username: username}, function(err, user) {
-            console.log(err);
-            console.log(user);
             if(user) {
                 return res.json({
                     success: false,
