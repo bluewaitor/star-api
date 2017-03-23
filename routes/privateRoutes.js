@@ -2,6 +2,7 @@ var express = require("express");
 var route = express.Router();
 var User = require("../models/User");
 var Article = require("../models/Article");
+var Tag = require("../models/Tag");
 var requireAuth = require('../middlewares/requireAuth');
 var requireAdmin = require('../middlewares/requireAdmin');
 /**
@@ -182,7 +183,7 @@ route.put('/users/password', requireAuth, function(req, res) {
     var newPassword = req.body.newPassword;
     var repeatPassword = req.body.repeatPassword;
     var id = req.decoded.id;
-    if(newPassword != repeatPassword) {
+    if(newPassword !== repeatPassword) {
         return res.json({
             success: false,
             message: "新密码和重复新密码不一致"
@@ -220,6 +221,69 @@ route.put('/users/password', requireAuth, function(req, res) {
             });
         }
     });
+});
+
+route.post('/tags', requireAuth, requireAdmin, function (req, res) {
+    var name = req.body.name;
+    var parent = req.body.parent;
+    
+    if(!name) {
+        return res.json({
+            success: false,
+            message: "标签名不能为空"
+        })
+    }
+    
+    if(parent) {
+        Tag.findById(parent, function(err, tag) {
+            if(err) {
+                return res.json({
+                    success: false,
+                    message: "标签创建失败",
+                    err: err
+                })
+            }
+            if(!tag) {
+                return res.json({
+                    success: false,
+                    message: "标签创建失败(父标签不存在)"
+                })
+            }
+            createTag();
+        });
+    } else {
+        createTag();
+    }
+
+    function createTag(){
+        var tag = new Tag();
+        tag.name = name;
+        if(parent) {
+            tag.parent = parent;
+        }
+        tag.save(function (err, tag) {
+            if(!err && tag) {
+                if(parent) {
+                    Tag.findById(parent, function(err, parentTag) {
+                        parentTag.children.push(tag._id);
+                        parentTag.save()
+                    })
+                }
+
+                return res.json({
+                    success: true,
+                    message: "标签创建成功",
+                    tag: tag
+                })
+            }else{
+                return res.json({
+                    success: false,
+                    message: "标签创建失败",
+                    err: err
+                })
+            }
+        });
+    }
 });
 
 module.exports = route;
