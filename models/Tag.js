@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
+var autopopulate = require('mongoose-autopopulate');
 var tagSchema = mongoose.Schema({
     name: {
         type: String,
@@ -14,10 +14,11 @@ var tagSchema = mongoose.Schema({
     children: [
         {
             type: Schema.Types.ObjectId,
-            ref: "Tag"
+            ref: "Tag",
+            autopopulate: { select: '_id name children parent' }
         }
     ]
 });
 
-
+tagSchema.plugin(autopopulate);
 module.exports = mongoose.model('Tag', tagSchema);

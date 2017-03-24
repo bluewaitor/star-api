@@ -308,7 +308,7 @@ route.get('/tags', requireAuth, requireAdmin, function(req, res) {
 })
 
 route.get('/tagroot', requireAuth, requireAdmin, function(req, res) {
-    Tag.find({parent: null}).select('_id name children').populate({path: 'children', populate: {path: 'children'}}).exec(function(err, tags){
+    Tag.find({parent: null}).select('_id name parent children').exec(function(err, tags){
         if (!err && tags) {
             return res.json({
                 success: true,
