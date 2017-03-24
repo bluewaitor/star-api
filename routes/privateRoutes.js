@@ -223,6 +223,9 @@ route.put('/users/password', requireAuth, function(req, res) {
     });
 });
 
+/**
+ * 添加标签
+ */
 route.post('/tags', requireAuth, requireAdmin, function (req, res) {
     var name = req.body.name;
     var parent = req.body.parent;
@@ -285,5 +288,41 @@ route.post('/tags', requireAuth, requireAdmin, function (req, res) {
         });
     }
 });
+
+route.get('/tags', requireAuth, requireAdmin, function(req, res) {
+    Tag.find({}, function(err, tags){
+        if (!err && tags) {
+            return res.json({
+                success: true,
+                message: '获取标签成功',
+                tags: tags
+            });
+        } else {
+            return res.json({
+                success: false,
+                message: "获取标签失败",
+                err: err
+            })
+        }
+    })
+})
+
+route.get('/tagroot', requireAuth, requireAdmin, function(req, res) {
+    Tag.find({parent: null}).select('_id name children').populate({path: 'children', populate: {path: 'children'}}).exec(function(err, tags){
+        if (!err && tags) {
+            return res.json({
+                success: true,
+                message: '获取标签成功',
+                tags: tags
+            });
+        } else {
+            return res.json({
+                success: false,
+                message: "获取标签失败",
+                err: err
+            })
+        }
+    })
+})
 
 module.exports = route;
