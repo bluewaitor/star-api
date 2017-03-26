@@ -2,14 +2,39 @@ var express = require('express');
 
 var router = express.Router();
 
-var signupCheck = require('./signup_check');
-var users = require('./users');
+var signupCheck = require('./public/signup_check');
+var users = require('./public/users');
+var articles = require('./public/articles');
 
 module.exports = function(app){
     
-    app.use('/signup_check/username', signupCheck.username);
+    /**
+     * 检查用户名
+     */
+    router.post('/signup_check/username', signupCheck.username);
 
-    app.use('/signup', users.signup);
-    app.use('/login', users.login);
-    app.use('/user', users.user);
+    /**
+     * 用户注册
+     */
+    router.post('/signup', users.signup);
+
+    /**
+     * 用户登录
+     */
+    router.post('/login', users.login);
+
+    /**
+     * 获取所有的文章, 不需要登录
+     */
+    router.get('/articles', articles.getAllArticle);
+
+    /**
+     * 根据id获取文章, 不需要登录
+     */
+    router.get('/articles/:id', articles.getArticleById);
+
+    /**
+     * 应用到根目录
+     */
+    app.use('/', router)
 };

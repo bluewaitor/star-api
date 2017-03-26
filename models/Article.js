@@ -17,6 +17,10 @@ var ArticleSchema = mongoose.Schema({
     content: {
         type: String
     },
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Tag'
+    }],
     publish: {
         type: Boolean,
         default: false

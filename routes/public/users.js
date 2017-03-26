@@ -1,7 +1,7 @@
 
 var jwt = require('jsonwebtoken');
-var appConfig = require('../config/appConfig');
-var User = require('../models/User');
+var appConfig = require('../../config/appConfig');
+var User = require('../../models/User');
 
 module.exports = {
     signup: function(req, res) {
@@ -98,21 +98,4 @@ module.exports = {
             }
         })
     },
-
-    user: function(req, res) {
-        var username = req.body.username;
-        User.findOne({username: username}, function(err, user) {
-            if(user) {
-                return res.json({
-                    success: false,
-                    message: "用户名已存在"
-                })
-            }else{
-                return res.json({
-                    success: true,
-                    message: "用户名可以使用"
-                })
-            }
-        })
-    }
 };

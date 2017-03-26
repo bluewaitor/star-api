@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(morgan('dev'));
 
 publicRoutes(app);
-app.use("/", privateRoutes);
+privateRoutes(app);
 
 
 app.listen(PORT, function() {
