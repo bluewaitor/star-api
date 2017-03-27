@@ -7,9 +7,10 @@ var requireAdmin = require('../middlewares/requireAdmin');
 var users = require('./private/users');
 var articles = require('./private/articles');
 var tags = require('./private/tags');
+var stars = require('./private/stars');
 
 module.exports = function(app) {
-    
+
     /**
      * 获取自己的信息
      */
@@ -50,6 +51,15 @@ module.exports = function(app) {
      */
     router.get('/tags/tree', requireAuth, requireAdmin, tags.getTagsTree);
 
+    /**
+     * 添加收藏
+     */
+    router.post('/stars', requireAuth, stars.addStar);
+
+    /**
+     * 获取公开收藏
+     */
+    router.get('/stars', requireAuth, stars.getPublicStars);
     /**
      * 应用到根目录
      */

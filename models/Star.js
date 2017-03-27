@@ -6,15 +6,31 @@ var starSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    title: {
+        type: String,
+        index: true
+    },
     url: {
         type: String,
         index: true
+    },
+    type: {
+        type: String,
+        default: 'url'
+    },
+    text: {
+        type: String,
+        default: ''
     },
     public: {
         type: Boolean,
         default: true
     },
     like: {
+        type: Number,
+        default: 0
+    },
+    visits:{
         type: Number,
         default: 0
     }
