@@ -60,6 +60,12 @@ module.exports = function(app) {
      * 获取公开收藏
      */
     router.get('/stars', requireAuth, stars.getPublicStars);
+
+    /**
+     * 获取自己的收藏
+     */
+    router.get('/stars/me', requireAuth, stars.getMyStars);
+
     /**
      * 应用到根目录
      */

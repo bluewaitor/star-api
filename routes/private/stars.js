@@ -67,5 +67,23 @@ module.exports = {
                 });
             }
         })
+    },
+
+    getMyStars: function(req, res) {
+        Star.find({user: req.decoded.id}, function(err, stars) {
+            if(!err && stars) {
+                return res.json({
+                    success: true,
+                    message: '获取收藏成功',
+                    stars: stars
+                });
+            } else {
+                return res.json({
+                    success: false,
+                    message: '获取收藏失败',
+                    err: err
+                });
+            }
+        })
     }
 }

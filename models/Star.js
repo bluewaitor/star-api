@@ -14,6 +14,9 @@ var starSchema = mongoose.Schema({
         type: String,
         index: true
     },
+    icon: {
+        type: String,
+    },
     type: {
         type: String,
         default: 'url'
