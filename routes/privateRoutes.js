@@ -67,6 +67,11 @@ module.exports = function(app) {
     router.get('/stars/me', requireAuth, stars.getMyStars);
 
     /**
+     * 更新访问次数
+     */
+    router.patch('/stars/:id', requireAuth, stars.patchVisits);
+
+    /**
      * 应用到根目录
      */
     app.use('/', router);

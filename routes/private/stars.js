@@ -70,7 +70,7 @@ module.exports = {
     },
 
     getMyStars: function(req, res) {
-        Star.find({user: req.decoded.id}, function(err, stars) {
+        Star.find({user: req.decoded.id}, null, {sort: {visits: -1, updated: -1}}, function(err, stars) {
             if(!err && stars) {
                 return res.json({
                     success: true,
@@ -85,5 +85,23 @@ module.exports = {
                 });
             }
         })
+    },
+
+    patchVisits: function(req, res) {
+        console.log(req.params.id);
+        Star.findByIdAndUpdate(req.params.id, {$inc: { visits: 1 }}, {new: true}, function(err, star) {
+            if(!err && star) {
+                return res.json({
+                    success: true,
+                    message: '更新成功',
+                    star: star
+                });
+            } else {
+                return res.json({
+                    success: false,
+                    message: '更新失败'
+                })
+            }
+        })   
     }
 }
