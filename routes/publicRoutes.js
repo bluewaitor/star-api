@@ -24,12 +24,12 @@ module.exports = function(app){
     router.post('/login', users.login);
 
     /**
-     * 获取所有的文章, 不需要登录
+     * 获取所有的文章
      */
     router.get('/articles', articles.getAllArticle);
 
     /**
-     * 根据id获取文章, 不需要登录
+     * 根据id获取文章
      */
     router.get('/articles/:id', articles.getArticleById);
 

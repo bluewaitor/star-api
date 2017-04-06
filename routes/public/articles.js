@@ -2,7 +2,7 @@ var Article = require('../../models/Article');
 
 module.exports = {
     getAllArticle: function(req, res) {
-        Article.find({}).sort('-created').populate('user', 'username date').exec( function(err, articles) {
+        Article.find({secret: false, publish: true}).sort('-created').populate('user', 'username date').exec(function(err, articles) {
             if(!err) {
                 return res.json({
                     success: true,

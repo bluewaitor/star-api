@@ -60,6 +60,34 @@ module.exports = {
         });
     },
 
+    updateGender: function(req, res) {
+        var gender = req.body.gender;
+        var id = req.decoded.id;
+        User.findById(id, function (err, user) {
+            if(!err && user) {
+                user.gender = gender;
+                user.save(function(newErr, newUser) {
+                    if(!newErr && newUser) {
+                        res.json({
+                            success: true,
+                            message: "性别修改成功"
+                        })
+                    }else{
+                        res.json({
+                            success: false,
+                            message: "性格修改失败"
+                        })
+                    }
+                });
+            }else{
+                return res.json({
+                    success: false,
+                    message: "用户不存在"
+                });
+            }
+        });
+    },
+
     getAllUser: function(req, res) {
         User.find({}, 'username created updated type', function(err, users) {
             if(err) throw err;

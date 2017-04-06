@@ -22,9 +22,19 @@ module.exports = function(app) {
     router.put('/users/password', requireAuth, users.updatePassword);
 
     /**
+     * 修改性别
+     */
+    router.put('/users/gender', requireAuth, users.updateGender);
+
+    /**
      * 获取所有用户
      */
     router.get("/users", requireAuth, requireAdmin, users.getAllUser);
+
+    /**
+     * 获取所有文章
+     */
+    router.get('/dashboard/articles', requireAuth, requireAdmin, articles.getAllArticles);
 
     /**
      * 添加文章

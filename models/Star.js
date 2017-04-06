@@ -25,9 +25,9 @@ var starSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    public: {
+    secret: {
         type: Boolean,
-        default: true
+        default: false
     },
     like: {
         type: Number,

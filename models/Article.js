@@ -6,9 +6,9 @@ var ArticleSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    public: {
+    secret: {
         type: Boolean,
-        default: true
+        default: false
     },
     title: {
         type: String,

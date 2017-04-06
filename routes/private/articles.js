@@ -1,9 +1,28 @@
 var Article = require('../../models/Article');
 
 module.exports = {
+
+    getAllArticles: function(req, res) {
+        Article.find({}).sort('-created').populate('user', 'username date').exec(function(err, articles) {
+            if(!err) {
+                return res.json({
+                    success: true,
+                    articles: articles
+                })
+            }else{
+                return res.json({
+                    success: false,
+                    message: "获取文章失败"
+                })
+            }
+        });
+    },
+
     addArticle: function(req, res) {
         var title = req.body.title;
         var content = req.body.content;
+        var publish = req.body.publish;
+        var secret = req.body.secret;
         if(!title) {
             return res.json({
                 success: false,
@@ -21,6 +40,8 @@ module.exports = {
         var article = new Article();
         article.title = title;
         article.content = content;
+        article.publish = publish;
+        article.secret = secret;
         article.user = req.decoded.id;
         article.save(function(err, insertedArticle) {
             if(err) {
@@ -39,6 +60,8 @@ module.exports = {
         var id = req.params.id;
         var title = req.body.title;
         var content = req.body.content;
+        var publish = req.body.publish;
+        var secret = req.body.secret;
         var userId = req.decoded.id;
 
         if(!title) {
@@ -59,7 +82,7 @@ module.exports = {
         if(!req.decoded.user.admin) {
             condition.user = userId
         }
-        Article.findOneAndUpdate(condition, {title: title, content: content}, function(err, newArticle){
+        Article.findOneAndUpdate(condition, {title: title, content: content, publish: publish, secret: secret}, function(err, newArticle){
             if(!err && newArticle) {
                 return res.json({
                     success: true,
