@@ -7,6 +7,26 @@ module.exports = {
             if(!err) {
                 return res.json({
                     success: true,
+                    message: '获取文章成功',                    
+                    articles: articles
+                })
+            }else{
+                return res.json({
+                    success: false,
+                    message: "获取文章失败"
+                })
+            }
+        });
+    },
+
+    getMyArticles: function(req, res){
+        Article.find({user: req.decoded.id}).sort('-created').exec(function(err, articles){
+            console.log(articles)
+            console.log(err)
+            if(!err) {
+                return res.json({
+                    success: true,
+                    message: '获取文章成功',
                     articles: articles
                 })
             }else{

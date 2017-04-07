@@ -37,6 +37,11 @@ module.exports = function(app) {
     router.get('/dashboard/articles', requireAuth, requireAdmin, articles.getAllArticles);
 
     /**
+     * 获取自己的文章
+     */
+    router.get('/me/articles', requireAuth, articles.getMyArticles);
+
+    /**
      * 添加文章
      */
     router.post("/articles", requireAuth, articles.addArticle);
