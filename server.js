@@ -5,7 +5,9 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var timestampPlugin = require('@bluewaitor/mongoose-plugin-timestamp');
+var mongoosePaginate = require('mongoose-paginate');
 mongoose.plugin(timestampPlugin, {index: true});
+mongoose.plugin(mongoosePaginate);
 var cors = require('cors');
 
 var publicRoutes = require('./routes/publicRoutes');

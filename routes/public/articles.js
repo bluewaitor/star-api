@@ -2,7 +2,9 @@ var Article = require('../../models/Article');
 
 module.exports = {
     getAllArticle: function(req, res) {
-        Article.find({secret: false, publish: true}).sort('-created').populate('user', 'username date').exec(function(err, articles) {
+        var page = Number(req.query.page) || 1;
+        var limit = Number(req.query.limit) || 10;
+        Article.paginate({secret: false, publish: true}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username date'}}, function(err, articles){
             if(!err) {
                 return res.json({
                     success: true,
