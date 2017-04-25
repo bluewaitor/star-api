@@ -89,13 +89,15 @@ module.exports = {
     },
 
     getAllUser: function(req, res) {
-        User.find({}, 'username created updated type', function(err, users) {
+        var page = Number(req.query.page) || 1;
+        var limit = Number(req.query.limit) || 10;
+        User.paginate({}, {page: page, limit: limit, sort: '-created'}, function(err, users) {
             if(err) throw err;
             res.json({
                 success: true,
                 message: "获取用户成功",
                 users: users
-            })
+            });
         })
     }
 }
