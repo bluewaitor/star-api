@@ -88,7 +88,6 @@ module.exports = {
     },
 
     patchVisits: function(req, res) {
-        console.log(req.params.id);
         Star.findByIdAndUpdate(req.params.id, {$inc: { visits: 1 }}, {new: true}, function(err, star) {
             if(!err && star) {
                 return res.json({
