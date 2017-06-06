@@ -18,8 +18,11 @@ var ArticleSchema = mongoose.Schema({
         type: String
     },
     tags: [{
+        type: String
+    }],
+    comments: [{
         type: Schema.Types.ObjectId,
-        ref: 'Tag'
+        ref: 'Comment'
     }],
     publish: {
         type: Boolean,

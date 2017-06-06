@@ -14,6 +14,16 @@ module.exports = function(app){
     router.post('/signup_check/username', signupCheck.username);
 
     /**
+     * 检查邮箱
+     */
+    router.post('/signup_check/email', signupCheck.email);
+
+    /**
+     * 检查密码
+     */
+    router.post('/signup_check/password', signupCheck.password);
+
+    /**
      * 用户注册
      */
     router.post('/signup', users.signup);

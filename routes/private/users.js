@@ -3,7 +3,7 @@ var User = require('../../models/User');
 module.exports = {
     getSelfInfo: function(req, res) {
         var id = req.decoded.id;
-        User.findById(id, 'username created type',function(err, user) {
+        User.findById(id, 'username created type', function(err, user) {
             if(err) return res.status(403).json({
                 success: false,
                 message: "查无此人"
@@ -100,4 +100,4 @@ module.exports = {
             });
         })
     }
-}
+};

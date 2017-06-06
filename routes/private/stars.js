@@ -22,7 +22,7 @@ module.exports = {
                 console.log(existStar);
                 return res.json({
                     success: false,
-                    message: '这个地址你已经收藏过了',
+                    message: '这个地址你已经收藏过了'
                 });
             }
 
@@ -103,4 +103,4 @@ module.exports = {
             }
         })   
     }
-}
+};

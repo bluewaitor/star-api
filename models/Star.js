@@ -15,7 +15,7 @@ var starSchema = mongoose.Schema({
         index: true
     },
     icon: {
-        type: String,
+        type: String
     },
     type: {
         type: String,
@@ -33,7 +33,7 @@ var starSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    visits:{
+    visits: {
         type: Number,
         default: 0
     }

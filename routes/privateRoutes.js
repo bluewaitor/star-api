@@ -6,8 +6,8 @@ var requireAuth = require('../middlewares/requireAuth');
 var requireAdmin = require('../middlewares/requireAdmin');
 var users = require('./private/users');
 var articles = require('./private/articles');
-var tags = require('./private/tags');
 var stars = require('./private/stars');
+var comments = require('./private/comments');
 
 module.exports = function(app) {
 
@@ -52,21 +52,6 @@ module.exports = function(app) {
     router.put('/articles/:id', requireAuth, articles.updateArticle);
 
     /**
-     * 添加标签
-     */
-    router.post('/tags', requireAuth, requireAdmin, tags.addTag);
-
-    /**
-     * 获取标签
-     */
-    router.get('/tags', requireAuth, requireAdmin, tags.getTags);
-
-    /**
-     * 获取树形标签
-     */
-    router.get('/tags/tree', requireAuth, requireAdmin, tags.getTagsTree);
-
-    /**
      * 添加收藏
      */
     router.post('/stars', requireAuth, stars.addStar);
@@ -85,6 +70,11 @@ module.exports = function(app) {
      * 更新访问次数
      */
     router.patch('/stars/:id', requireAuth, stars.patchVisits);
+
+    /**
+     * 添加评论
+     */
+    router.post('/comments', requireAuth, comments.addComment);
 
     /**
      * 应用到根目录

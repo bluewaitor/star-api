@@ -26,7 +26,7 @@ var userSchema = mongoose.Schema({
     phone: {
         type: String,
         index: true
-    },
+    }
 });
 
 userSchema.pre('save', function(next) {

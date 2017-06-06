@@ -20,7 +20,7 @@ module.exports = {
     },
     getArticleById: function(req, res) {
         var id = req.params.id;
-        Article.findById(id).populate('user', 'username').exec(function(err, article) {
+        Article.findById(id).populate([{path: 'user', select: 'username'}, {path: 'comments'}]).exec(function(err, article) {
             if(!err) {
                 return res.json({
                     message: "获取文章详情成功",
@@ -35,4 +35,4 @@ module.exports = {
             }
         })
     }
-}
+};
