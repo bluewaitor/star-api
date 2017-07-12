@@ -1,6 +1,8 @@
 var PORT = process.env.PORT || 3000;
 var express = require('express');
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
@@ -24,7 +26,20 @@ app.use(morgan('dev'));
 publicRoutes(app);
 privateRoutes(app);
 
-
-app.listen(PORT, function() {
+server.listen(PORT, function() {
     console.log('app running at port ' + PORT);
+
 });
+
+io.on('connection', function (socket) {
+    console.log('connection');
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+  socket.on('message', function(data) {
+    console.log(data);
+  })
+});
+
+
