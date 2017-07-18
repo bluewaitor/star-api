@@ -1,8 +1,8 @@
-var jwt = require('jsonwebtoken');
-var appConfig = require('../config/appConfig');
+const jwt = require('jsonwebtoken');
+const appConfig = require('../config/appConfig');
 
 function requireAuth(req, res, next){
-    var token = req.body.token || req.params.token || req.headers['token'];
+    let token = req.body.token || req.params.token || req.headers['token'];
     if(!token) {
         return res.status(403).json({
             success: false,
@@ -17,7 +17,6 @@ function requireAuth(req, res, next){
                         message: "token已经过期, 请重新获取"
                     })
                 }
-
                 return res.status(403).json({
                     success: false,
                     message: err.message

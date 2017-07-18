@@ -1,45 +1,73 @@
-var PORT = process.env.PORT || 3000;
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var bodyParser = require('body-parser');
-var morgan = require('morgan');
-var mongoose = require('mongoose');
-var timestampPlugin = require('@bluewaitor/mongoose-plugin-timestamp');
-var mongoosePaginate = require('mongoose-paginate');
+const PORT = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const timestampPlugin = require('@bluewaitor/mongoose-plugin-timestamp');
+const mongoosePaginate = require('mongoose-paginate');
+
+// 数据库
 mongoose.Promise = global.Promise;
 mongoose.plugin(timestampPlugin, {index: true});
 mongoose.plugin(mongoosePaginate);
-var cors = require('cors');
-
-var publicRoutes = require('./routes/publicRoutes');
-var privateRoutes = require('./routes/privateRoutes');
-
 mongoose.connect('mongodb://localhost:27017/star');
 
+// 中间件
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(morgan('dev'));
 
-publicRoutes(app);
-privateRoutes(app);
+// 路由
+const account = require('./routes/account');
+const signupCheck = require('./routes/signup-check');
+const users = require('./routes/users');
+const articles = require('./routes/articles');
+const stars = require('./routes/stars');
+app.use('/account', account);
+app.use('/signup_check', signupCheck);
+app.use('/users', users);
+app.use('/articles', articles);
+app.use('/stars', stars);
 
-server.listen(PORT, function() {
-    console.log('app running at port ' + PORT);
-
+// 404 错误
+app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
-io.on('connection', function (socket) {
+// Error handler function
+app.use((err, req, res, next) => {
+    const error = app.get('env') === 'development' ? err : {};
+    const status = err.status || 500;
+
+    res.status(status).json({
+        success: false,
+        message: error.message,
+    });
+
+    console.error(err);
+});
+
+// 开始
+server.listen(PORT, () => {
+    console.log('app running at port ' + PORT);
+});
+
+io.on('connection', (socket) => {
     console.log('connection');
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-  socket.on('message', function(data) {
-    console.log(data);
-  })
+    socket.emit('news', {hello: 'world'});
+    socket.on('my other event', (data) => {
+        console.log(data);
+    });
+    socket.on('message', (data) => {
+        console.log(data);
+    });
 });
 
 

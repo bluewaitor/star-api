@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var CommentSchema = Schema({
+const CommentSchema = Schema({
     comment: String,
     user: {
         type: Schema.Types.ObjectId,

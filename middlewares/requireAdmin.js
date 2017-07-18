@@ -1,7 +1,7 @@
-var User = require('../models/User');
+const User = require('../models/User');
 
 function requireAdmin(req, res, next) {
-    var userId = req.decoded.id;
+    const userId = req.decoded.id;
     User.findById(userId, function(err, user) {
         if(err) throw err;
         if(user.admin) {
@@ -14,6 +14,5 @@ function requireAdmin(req, res, next) {
         }
     });
 }
-
 
 module.exports = requireAdmin;
