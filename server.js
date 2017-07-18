@@ -28,11 +28,13 @@ const signupCheck = require('./routes/signup-check');
 const users = require('./routes/users');
 const articles = require('./routes/articles');
 const stars = require('./routes/stars');
+const todos = require('./routes/todos');
 app.use('/account', account);
 app.use('/signup_check', signupCheck);
 app.use('/users', users);
 app.use('/articles', articles);
 app.use('/stars', stars);
+app.use('/todos', todos);
 
 // 404 错误
 app.use((req, res, next) => {
@@ -61,10 +63,8 @@ server.listen(PORT, () => {
 
 io.on('connection', (socket) => {
     console.log('connection');
-    socket.emit('news', {hello: 'world'});
-    socket.on('my other event', (data) => {
-        console.log(data);
-    });
+    socket.emit('message', {hello: 'world'});
+
     socket.on('message', (data) => {
         console.log(data);
     });

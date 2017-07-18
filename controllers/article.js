@@ -4,21 +4,13 @@ const Comment = require('../models/Comment');
 module.exports = {
 
     getArticlesByAdmin: async (req, res, next) => {
-        var page = Number(req.query.page) || 1;
-        var limit = Number(req.query.limit) || 10;
-        Article.paginate({}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username date'}}, function(err, articles){
-            if(!err) {
-                return res.json({
-                    success: true,
-                    message: '获取文章成功',
-                    articles: articles
-                })
-            }else{
-                return res.json({
-                    success: false,
-                    message: "获取文章失败"
-                })
-            }
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        let articles = await Article.paginate({}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username date'}});
+        return res.json({
+            success: true,
+            message: '获取文章成功',
+            articles: articles
         });
     },
 
