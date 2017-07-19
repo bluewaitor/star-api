@@ -17,7 +17,7 @@ module.exports = {
         }
 
         let existStar = await Star.find({user: req.decoded.id, url: url});
-        if (existStar) {
+        if (existStar && existStar.length !== 0) {
             return res.json({
                 success: false,
                 message: '这个地址你已经收藏过了'
