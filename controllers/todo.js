@@ -40,6 +40,19 @@ module.exports = {
         }
     },
 
+    getTodosByAdmin: async (req, res, next) => {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        let todos = await Todo.paginate({}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username'}});
+        if (todos) {
+            return res.json({
+                success: true,
+                message: '获取待办事项成功',
+                todos: todos
+            })
+        }
+    },
+
     updateTodoStatus: async (req, res, next) => {
         const {id} = req.params;
         let {status} = req.body;

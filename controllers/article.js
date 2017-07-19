@@ -6,7 +6,7 @@ module.exports = {
     getArticlesByAdmin: async (req, res, next) => {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
-        let articles = await Article.paginate({}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username date'}});
+        let articles = await Article.paginate({}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username'}});
         return res.json({
             success: true,
             message: '获取文章成功',
