@@ -1,4 +1,4 @@
 module.exports = {
     secret: "StarApiIsSoAwesome",
-    expireTime: 6000 //暂时用100分钟
+    expireTime: 604800 // 7 * 24 * 60 * 60 = 604800 过期时间7天
 };

@@ -1,6 +1,8 @@
+const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-nodejs');
+const appConfig = require('../config/appConfig');
 
 const userSchema = Schema({
     username: {
@@ -30,17 +32,17 @@ const userSchema = Schema({
     }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
     const user = this;
-    if(!user.isModified('password')) {
+    if (!user.isModified('password')) {
         return next();
     }
     bcrypt.genSalt(10, (err, salt) => {
-        if(err) {
+        if (err) {
             return next(err);
         }
         bcrypt.hash(user.password, salt, null, (err, hash) => {
-            if(err) {
+            if (err) {
                 return next(err);
             }
             user.password = hash;
@@ -49,10 +51,25 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
+userSchema.methods.comparePassword = function (candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
         cb(err, isMatch);
     });
 };
+
+userSchema.methods.generateToken = function () {
+    return jwt.sign({
+            id: this.id,
+            user: {
+                username: this.username,
+                admin: this.admin
+            }
+        },
+        appConfig.secret,
+        {
+            expiresIn: appConfig.expireTime
+        });
+};
+
 
 module.exports = mongoose.model('User', userSchema);

@@ -2,29 +2,6 @@ const jwt = require('jsonwebtoken');
 const appConfig = require('../config/appConfig');
 const User = require('../models/User');
 
-const generateToken = (user) => {
-    return new Promise((resolve, reject) => {
-        jwt.sign({
-                id: user.id,
-                user: {
-                    username: user.username,
-                    date: user.date,
-                    admin: user.admin
-                }
-            },
-            appConfig.secret,
-            {
-                expiresIn: appConfig.expireTime
-            }, function (error, token) {
-                if (!error) {
-                    resolve(token);
-                } else {
-                    reject(error);
-                }
-            });
-    })
-};
-
 module.exports = {
     signup: async (req, res, next) => {
         let {username, password} = req.body;
@@ -54,7 +31,7 @@ module.exports = {
         const user = new User({username, password});
         const newUser = await user.save();
 
-        const token = await generateToken(newUser);
+        const token = newUser.generateToken();
         if (token) {
             res.json({success: true, message: "注册成功", token: token})
         }
@@ -84,7 +61,6 @@ module.exports = {
                 message: "用户不存在"
             });
         }
-
         user.comparePassword(password, async (err, isMatch) => {
             if (!isMatch) {
                 return res.json({
@@ -92,7 +68,7 @@ module.exports = {
                     message: "密码错误"
                 })
             } else {
-                const token = await generateToken(user);
+                const token = user.generateToken();
                 if (token) {
                     return res.json({
                         success: true,

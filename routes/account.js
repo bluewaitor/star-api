@@ -2,10 +2,10 @@ const router = require('express-promise-router')();
 
 const AccountController = require('../controllers/account');
 
-router.route('/login')
-    .post(AccountController.login);
+// 用户注册
+router.post('/signup', AccountController.signup);
 
-router.route('/signup')
-    .post(AccountController.signup);
+// 用户登录
+router.post('/login', AccountController.login);
 
 module.exports = router;

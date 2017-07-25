@@ -6,7 +6,12 @@ module.exports = {
     getArticlesByAdmin: async (req, res, next) => {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
-        let articles = await Article.paginate({}, {page: page, limit: limit, sort: '-created', populate: {path: 'user', select: 'username'}});
+        let articles = await Article.paginate({}, {
+            page: page,
+            limit: limit,
+            sort: '-created',
+            populate: {path: 'user', select: 'username'}
+        });
         return res.json({
             success: true,
             message: '获取文章成功',
@@ -80,14 +85,14 @@ module.exports = {
 
     addArticle: async (req, res, next) => {
         const {title, content, publish, secret} = req.body;
-        if(!title) {
+        if (!title) {
             return res.json({
                 success: false,
                 message: "文章标题不能为空"
             });
         }
 
-        if(!content) {
+        if (!content) {
             return res.json({
                 success: false,
                 message: "文章内容不能为空"
@@ -114,14 +119,14 @@ module.exports = {
         const {title, content, publish, secret} = req.body;
         const userId = req.decoded.id;
 
-        if(!title) {
+        if (!title) {
             return res.json({
                 success: false,
                 message: "文章标题不能为空"
             });
         }
 
-        if(!content) {
+        if (!content) {
             return res.json({
                 success: false,
                 message: "文章内容不能为空"
@@ -129,10 +134,15 @@ module.exports = {
         }
 
         const condition = {_id: id};
-        if(!req.decoded.user.admin) {
+        if (!req.decoded.user.admin) {
             condition.user = userId
         }
-        const newArticle = await Article.findOneAndUpdate(condition, {title: title, content: content, publish: publish, secret: secret});
+        const newArticle = await Article.findOneAndUpdate(condition, {
+            title: title,
+            content: content,
+            publish: publish,
+            secret: secret
+        });
         if (newArticle) {
             return res.json({
                 success: true,
@@ -151,19 +161,19 @@ module.exports = {
     addComment: async (req, res, next) => {
         const userId = req.decoded.id;
         const {comment, article, replyTo} = req.body;
-        if(!comment) {
+        if (!comment) {
             return res.json({
                 message: '评论不能为空',
                 success: false
             });
         }
-        if(comment.length > 200) {
+        if (comment.length > 200) {
             return res.json({
                 message: '评论长度不能超过200',
                 success: false
             });
         }
-        if(!article) {
+        if (!article) {
             return res.json({
                 message: '必须评论某篇文章',
                 success: false
@@ -174,7 +184,7 @@ module.exports = {
         newComment.article = article;
         newComment.user = userId;
         newComment.comment = comment;
-        if(replyTo) {
+        if (replyTo) {
             newComment.replyTo = replyTo;
         }
         await newComment.save();

@@ -3,13 +3,13 @@ const Star = require('../models/Star');
 module.exports = {
     addStar: async (req, res, next) => {
         const {title, url} = req.body;
-        if(!title) {
+        if (!title) {
             return res.json({
                 success: false,
                 message: '必须填写标题'
             });
         }
-        if(!url) {
+        if (!url) {
             return res.json({
                 success: false,
                 message: '必须填写url'
@@ -56,7 +56,7 @@ module.exports = {
     },
 
     patchVisits: async (req, res, next) => {
-        let star = await Star.findByIdAndUpdate(req.params.id, {$inc: { visits: 1 }}, {new: true});
+        let star = await Star.findByIdAndUpdate(req.params.id, {$inc: {visits: 1}}, {new: true});
         return res.json({
             success: true,
             message: '更新成功',

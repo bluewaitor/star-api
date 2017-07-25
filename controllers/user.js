@@ -1,4 +1,3 @@
-
 const User = require('../models/User');
 
 module.exports = {
@@ -13,7 +12,7 @@ module.exports = {
     updatePassword: async (req, res, next) => {
         const {oldPassword, newPassword, repeatPassword} = req.body;
         const id = req.decoded.id;
-        if(newPassword !== repeatPassword) {
+        if (newPassword !== repeatPassword) {
             return res.json({
                 success: false,
                 message: "新密码和重复新密码不一致"
@@ -22,12 +21,12 @@ module.exports = {
         let user = await User.findById(id);
         if (user) {
             user.comparePassword(oldPassword, async function (err, isMatch) {
-                if(!isMatch) {
+                if (!isMatch) {
                     return res.json({
                         success: false,
                         message: "老密码错误"
                     })
-                } else{
+                } else {
                     user.password = newPassword;
                     let newUser = await user.save();
                     if (newUser) {
