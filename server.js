@@ -14,7 +14,7 @@ const mongoosePaginate = require('mongoose-paginate');
 mongoose.Promise = global.Promise;
 mongoose.plugin(timestampPlugin, {index: true});
 mongoose.plugin(mongoosePaginate);
-mongoose.connect('mongodb://localhost:27017/star');
+mongoose.connect('mongodb://localhost:27017/star', {useMongoClient: true});
 
 // 中间件
 app.use(cors());

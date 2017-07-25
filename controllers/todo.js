@@ -103,6 +103,23 @@ module.exports = {
                 message: '你不是该待办的所有者'
             })
         }
+    },
 
+    deleteTodo: async (req, res, next) => {
+        const {id} = req.params;
+        const userId = req.decoded.id;
+        let todo = await Todo.findOneAndRemove({_id: id, user: userId});
+        if (todo) {
+            return res.json({
+                success: true,
+                message: '删除成功'
+            })
+        } else {
+            return res.json({
+                success: false,
+                message: '待办不存在'
+            })
+        }
     }
+
 };

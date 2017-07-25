@@ -19,4 +19,7 @@ router.patch('/:id/status', requireAuth, TodoController.updateTodoStatus);
 // 修改待办详情
 router.patch('/:id/thing', requireAuth, TodoController.updateTodoThing);
 
+// 删除待办
+router.delete('/:id', requireAuth, TodoController.deleteTodo);
+
 module.exports = router;
