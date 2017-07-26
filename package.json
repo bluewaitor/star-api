@@ -18,15 +18,14 @@
   },
   "homepage": "https://github.com/bluewaitor/star-api#readme",
   "dependencies": {
-    "@bluewaitor/mongoose-plugin-timestamp": "^1.0.0",
+    "@bluewaitor/mongoose-plugin-timestamp": "^1.0.4",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
-    "cors": "^2.8.1",
+    "cors": "^2.8.4",
     "express": "^4.14.0",
     "express-promise-router": "^2.0.0",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.2",
-    "mongoose-autopopulate": "^0.5.0",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.7.0",
     "socket.io": "^2.0.3"

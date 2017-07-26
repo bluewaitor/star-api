@@ -2,7 +2,7 @@ const PORT = process.env.PORT || 3000;
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+// const io = require('socket.io')(server);
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -61,13 +61,13 @@ server.listen(PORT, () => {
     console.log('app running at port ' + PORT);
 });
 
-io.on('connection', (socket) => {
-    console.log('connection');
-    socket.emit('message', {hello: 'world'});
-
-    socket.on('message', (data) => {
-        console.log(data);
-    });
-});
+// io.on('connection', (socket) => {
+//     console.log('connection');
+//     socket.emit('message', {hello: 'world'});
+//
+//     socket.on('message', (data) => {
+//         console.log(data);
+//     });
+// });
 
 
