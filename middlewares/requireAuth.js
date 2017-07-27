@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const appConfig = require('../config/appConfig');
+const appConfig = require('../config');
 
 function requireAuth(req, res, next){
     let token = req.body.token || req.params.token || req.headers['token'];

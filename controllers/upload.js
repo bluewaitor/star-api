@@ -1,12 +1,13 @@
 const crypto = require('crypto');
 const moment = require('moment');
+const appConfig = require('../config');
 module.exports = {
     avatar: (req, res, next) => {
-        const id = '';
-        const key = '';
-        const bucketName = '';
+        const id = appConfig.id;
+        const key = appConfig.key;
+        const bucketName = appConfig.bucketName;
         const host = 'http://' + bucketName + '.oss-cn-shanghai.aliyuncs.com';
-        const callbackUrl = "";
+        const callbackUrl = "http://api.bluewaitor.com/upload/callback";
 
         let callbackParams = {
             callbackUrl: callbackUrl,
@@ -54,5 +55,10 @@ module.exports = {
             callback: base64CallbackBody,
             dir: dir
         });
+    },
+
+    callback: (req, res, next) => {
+        console.log(req.headers);
+        return res.json({success: true});
     }
 };

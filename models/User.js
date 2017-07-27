@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const appConfig = require('../config/appConfig');
+const appConfig = require('../config');
 
 const userSchema = Schema({
     username: {
