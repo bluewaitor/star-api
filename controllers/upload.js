@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const moment = require('moment');
+const request = require('request');
 const appConfig = require('../config');
 module.exports = {
     avatar: (req, res, next) => {
@@ -58,7 +59,56 @@ module.exports = {
     },
 
     callback: (req, res, next) => {
-        console.log(req.headers);
-        return res.json({success: true});
+        let pubKeyUrl;
+        const pubKeyUrlBase64 = req.headers['x-oss-pub-key-url'];
+        if (pubKeyUrlBase64) {
+            pubKeyUrl = new Buffer(pubKeyUrlBase64, 'base64').toString();
+        }
+        if (pubKeyUrl) {
+            request(pubKeyUrl, function (err, response, body) {
+                if (!err) {
+                    let pubKey = body;
+
+                    let authorizationBase64 = req.headers['authorization'];
+                    let authorization = new Buffer(authorizationBase64, 'base64').toString();
+
+                    let path = req.originalUrl;
+                    let pos = path.indexOf('?');
+
+                    let authStr = '';
+                    if (pos === -1) {
+                        authStr = decodeURIComponent(path) + '\n' + body;
+                    } else {
+                        authStr = decodeURIComponent(path.substr(0, pos)) + path.substr(pos, path.length - pos) + '\n' + body;
+                    }
+                    console.log(authStr);
+
+                    let hash = crypto.createHash('sha1');
+                    hash.update(authStr);
+                    let authStrMd5 = hash.digest();
+
+                    let verifier = crypto.createVerify('RSA-SHA1');
+                    verifier.update(new Buffer(authStrMd5, 'utf-8'));
+                    let verify = verifier.verify(pubKey, authorization, 'base64');
+                    console.log(verify);
+
+                    if (verify) {
+                        return res.json({success: true});
+                    } else {
+                        return res.json({success: false});
+                    }
+                } else {
+                    return res.json({
+                        success: false,
+                        message: '获取公钥失败'
+                    })
+                }
+            });
+        } else {
+            return res.json({
+                success: false,
+                message: 'oss callback error'
+            })
+        }
     }
 };
