@@ -14,7 +14,7 @@ router.get('/dashboard', requireAuth, requireAdmin, ArticleController.getArticle
 router.get('/me', requireAuth, ArticleController.getArticleByUserId);
 
 // 添加文章
-router.post(requireAuth, ArticleController.addArticle);
+router.post('/', requireAuth, ArticleController.addArticle);
 
 // 获取文章
 router.get('/:id', ArticleController.getArticleById);
