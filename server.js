@@ -30,6 +30,7 @@ const articles = require('./routes/articles');
 const stars = require('./routes/stars');
 const todos = require('./routes/todos');
 const upload = require('./routes/upload');
+const tags = require('./routes/tags');
 app.use('/account', account);
 app.use('/signup_check', signupCheck);
 app.use('/users', users);
@@ -37,6 +38,7 @@ app.use('/articles', articles);
 app.use('/stars', stars);
 app.use('/todos', todos);
 app.use('/upload', upload);
+app.use('/tags', tags);
 
 // 404 错误
 app.use((req, res, next) => {
